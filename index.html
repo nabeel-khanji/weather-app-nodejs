@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: monospace;
+            /* color: white; */
+        }
+        
+        @keyframes color {
+            0% {
+                background: #c433cc7e;
+            }
+            20% {
+                background: #338ccc82;
+            }
+            40% {
+                background: #33ccb875;
+            }
+            60% {
+                background: #00fc7671;
+            }
+            80% {
+                background: #3380cc71;
+            }
+            100% {
+                background: #cc33cc7b;
+            }
+        }
+        
+        body {
+            background: #33CCCC;
+            /* Fallback */
+            animation: color 9s infinite linear;
+            text-align: center;
+            padding: 2em;
+        }
+        
+        body {
+            background: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        html,
+        body {
+            font-size: 62.5%;
+            height: 100%;
+        }
+        
+        html {
+            background: #eee;
+        }
+        
+        .box {
+            padding: 15px;
+            width: 40vw;
+            height: 40vh;
+            border-radius: 2.5rem;
+            box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.311);
+            background: #89888886;
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+            min-width: 20rem;
+            min-height: 45rem;
+        }
+        
+        .location {
+            color: white;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 3rem;
+        }
+        
+        .fa-street-view {
+            animation: rotates 3s linear infinite alternate;
+        }
+        
+        @keyframes rotates {
+            from {
+                transform: translateX(-0.5rem);
+            }
+            to {
+                transform: translateX(0.5rem);
+            }
+        }
+        
+        #date {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        
+        .temp {
+            color: white;
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 3rem;
+        }
+        
+        .temp-min-max {
+            /* color: white; */
+            text-align: center;
+            margin-top: 0.3rem;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        
+        #weathercon {
+            height: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10rem;
+        }
+    </style>
+    <title>Weather App</title>
+
+</head>
+
+<body>
+    <div class="box">
+        <div class="wave-one"></div>
+        <div class="wave-two"></div>
+        <div class="wave-three"></div>
+        <div id="weathercon">
+            {%tempstatus%}
+        </div>
+        <div class="info">
+            <div class="row">
+
+                <div class="col" style="display: inline-block;">
+                    <h2 class="location">
+                        <i class="fas fa-street-view"></i> {%city%},{%country%}
+                    </h2>
+                    <p id="date">MON | APR 25 | 11:09AM</p>
+                </div>
+                <div style="width: 10%;display: inline-block;"></div>
+                <div class="col" style="display: inline-block;">
+                    <h1 class="temp">{%tempval%}&deg;C </h1>
+                    <h3 class="temp-min-max">Min {%tempmin%}&deg;C | Max {%tempmax%}&deg;C
+                    </h3>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script>
+        const curDate = document.getElementById('date');
+        let weathercon = document.getElementById('weathercon');
+        const tempStatus = '{%tempstatus%}';
+        if (tempStatus == 'Sunny') {
+            weathercon.innerHTML = "<i class = 'fas fa-sun'style = 'color: yellow;'></i>"
+        } else if (tempStatus == 'Clouds') {
+            weathercon.innerHTML = "<i class = 'fas fa-cloud'style = 'color: #cccaca'></i>"
+        } else if (tempStatus == 'Rainy') {
+            weathercon.innerHTML = "<i class = 'fas fa-rain'style = 'color: blue'></i>"
+        } else {
+            weathercon.innerHTML = "<i class = 'fas fa-cloud'style = 'color: #cccaca'></i>"
+        }
+        const getCurrentDay = () => {
+            var weekDay = new Array(7);
+            weekDay[0] = 'Sun';
+            weekDay[1] = 'Mon';
+            weekDay[2] = 'Tue';
+            weekDay[3] = 'Wed';
+            weekDay[4] = 'Thu';
+            weekDay[5] = 'Fri';
+            weekDay[6] = 'Sat';
+
+            let currentTime = new Date();
+            let day = weekDay[currentTime.getDay()];
+            return day;
+        };
+        const getCurrentTime = () => {
+            var months = [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+            ]
+            var now = new Date();
+            var month = months[now.getMonth()];
+            var date = now.getDate();
+            let hours = now.getHours();
+            let min = now.getMinutes();
+            let period = 'AM';
+            if (hours > 11) {
+                period = 'PM'
+                if (hours > 12) {
+                    hours -= 12;
+                }
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+
+            return `${month} ${date} | ${hours}:${min}${period}`;
+        }
+        curDate.innerHTML = getCurrentDay() + ' | ' + getCurrentTime();
+    </script>
+</body>
+
+</html>cript>
+</body>
+
+</html>
